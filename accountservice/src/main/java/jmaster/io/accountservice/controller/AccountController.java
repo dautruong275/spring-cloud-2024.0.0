@@ -40,7 +40,7 @@ public class AccountController {
         statisticService.add(new StatisticDTO("Account " + accountDTO.getName() + " is created ", new Date()));
         
         MessageDTO messageDTO =(new MessageDTO());
-        messageDTO.setFrom("dautruong.dt@gmail.com");
+        messageDTO.setFrom("dautruong97@gmail.com");
         messageDTO.setTo(accountDTO.getUsername());
         messageDTO.setToName(accountDTO.getName());
         messageDTO.setSubject("Welcom to Spring cloud");
