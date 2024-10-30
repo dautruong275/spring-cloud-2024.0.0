@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import jmaster.io.accountservice.client.NotificationService;
 import jmaster.io.accountservice.client.StatisticService;
 import jmaster.io.accountservice.model.AccountDTO;
+import jmaster.io.accountservice.model.MessageDTO;
 import jmaster.io.accountservice.model.StatisticDTO;
 import jmaster.io.accountservice.service.AccountService;
 
@@ -28,11 +30,22 @@ public class AccountController {
 
     @Autowired
     private StatisticService statisticService;
+    
+    @Autowired 
+    private NotificationService notificationService;
     // add new
     @PostMapping("/account")
     public AccountDTO addAccount(@RequestBody AccountDTO accountDTO) {
         accountService.add(accountDTO);
         statisticService.add(new StatisticDTO("Account " + accountDTO.getName() + " is created ", new Date()));
+        
+        MessageDTO messageDTO =(new MessageDTO());
+        messageDTO.setFrom("dautruong.dt@gmail.com");
+        messageDTO.setTo(accountDTO.getUsername());
+        messageDTO.setToName(accountDTO.getName());
+        messageDTO.setSubject("Welcom to Spring cloud");
+        messageDTO.setContent("Testing");
+        notificationService.sendNotification(messageDTO);
         return accountDTO;
     }
 
